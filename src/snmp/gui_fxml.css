@@ -1,0 +1,121 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+    
+}
+.chart-series-line {    
+    -fx-stroke-width: 4px;
+    -fx-stroke-line-cap:round;
+    -fx-effect: null;
+}
+ 
+.default-color0.chart-series-line { -fx-stroke: #3399ff; }
+.default-color1.chart-series-line { -fx-stroke: #ff3333; }
+
+.default-color0.chart-line-symbol { -fx-background-color: #3399ff, white; }
+.default-color1.chart-line-symbol { -fx-background-color: #ff3333, white; }
+
+#lbl_inspeed{-fx-text-fill : #3399ff;}
+#lbl_outspeed{-fx-text-fill : #ff3333;}
+#lbl_inbw{-fx-text-fill : #3399ff;}
+#lbl_outbw{-fx-text-fill : #ff3333;}
+
+.chart-legend {
+    -fx-background-color:#ededf9;
+   -fx-padding: 5px;
+}
+.chart-title {
+  -fx-text-fill: #4682b4;
+  -fx-font-size: 1.6em;
+  -fx-font-weight: bold;
+}
+ 
+.axis-label {
+  -fx-text-fill: #4682b4;
+}
+.chart-vertical-grid-lines {
+    -fx-stroke: #9999ff;
+}
+.chart-horizontal-grid-lines {
+    -fx-stroke: #9999ff;
+}
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.axis {
+    -fx-font-size: 1.6em;    
+    -fx-tick-label-fill: #000000;
+    -fx-tick-label-font: 12px "Serif";
+    -fx-tick-label-gap: 6;
+    -fx-font-family: Tahoma;
+    -fx-tick-length: 12;
+    -fx-minor-tick-length: 5;
+    
+}
+ 
+.axis-label {
+   -fx-text-fill: #462300; 
+}
+
+.axis-tick-mark {
+    
+    -fx-stroke: #637040;
+    -fx-stroke-width: 1.5; 
+}
+.axis-minor-tick-mark {
+    -fx-stroke: #859656;
+}
+
+
+#lbl_main_title{
+    -fx-font: 48px "Serif";
+    -fx-font-weight: bold;
+    -fx-text-fill : #000000;
+}
+#hbox_middle{
+    //-fx-background-color: #ccccff;
+}
+#topl_level_vbox{
+    
+}
+#graph{
+    
+}
+.tab .tab-label {
+    -fx-skin: "com.sun.javafx.scene.control.skin.LabelSkin";
+    -fx-background-color: transparent;    
+    -fx-alignment: CENTER;
+    -fx-text-fill: -fx-text-base-color;
+    -fx-font-size: 18px; /* all the same except this newly added one */
+    -fx-tab-min-width:180; 
+    -fx-tab-min-height:180; 
+    
+    //-fx-padding: 2px;
+    
+}
+/*
+#tab_monitor{
+    -fx-tab-min-width:40; 
+    -fx-tab-min-height:40; 
+    -fx-font: 20px "Serif";
+}
+#tab_devices{
+     -fx-tab-min-width:40; 
+    -fx-tab-min-height:40; 
+    -fx-font: 20px "Serif";
+}
+#tab_reports{
+     -fx-tab-min-width:40; 
+    -fx-tab-min-height:40; 
+     
+    -fx-font: 20px "Serif";
+}
+#tab_about{
+     -fx-tab-min-width:40; 
+    -fx-tab-min-height:40; 
+    -fx-font: 20px "Serif";
+}
+*/

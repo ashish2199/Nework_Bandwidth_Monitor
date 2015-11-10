@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1350.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="snmp.Gui_fxmlController">
+    <stylesheets>
+        <URL value="@gui_fxml.css" />
+    </stylesheets>
+   <children>
+      <VBox fx:id="topl_level_vbox" alignment="CENTER" prefHeight="580.0" prefWidth="740.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MenuBar fx:id="menubar" disable="true">
+              <menus>
+                <Menu mnemonicParsing="false" text="File" visible="false">
+                     <items>
+                        <MenuItem fx:id="menu_file_close" mnemonicParsing="false" text="Close" />
+                     </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help" visible="false">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </MenuBar>
+            <HBox fx:id="hbox_middle" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/icon.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lbl_main_title" prefHeight="83.0" prefWidth="1423.0" text="Monitoring And Network Analysis Software ( MANAS )">
+                     <font>
+                        <Font name="System Bold" size="36.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <Button fx:id="btn_minimise" mnemonicParsing="false" prefHeight="75.0" prefWidth="366.0" text="Minimize to System Tray" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="4.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </HBox>
+            <TabPane fx:id="tab_pane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+              <tabs>
+                <Tab fx:id="tab_monitor" text="   Monitor   ">
+                     <content>
+                        <SplitPane fx:id="splitpane_monitor" dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0">
+                          <items>
+                              <AnchorPane prefHeight="170.0" prefWidth="340.0">
+                                 <children>
+                                    <ScrollPane fx:id="scroll_pane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane fx:id="monitor_right_pane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <LineChart fx:id="graph" title="Current Bandwidth" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <xAxis>
+                                        <CategoryAxis fx:id="graph_x_time_axis" side="BOTTOM" />
+                                      </xAxis>
+                                      <yAxis>
+                                        <NumberAxis fx:id="graph_y_number_axis" animated="false" side="LEFT" tickLabelGap="1.0" tickLength="10.0" />
+                                      </yAxis>
+                                       <padding>
+                                          <Insets right="10.0" top="5.0" />
+                                       </padding>
+                                    </LineChart>
+                                    <AnchorPane layoutX="44.0" layoutY="354.0" prefHeight="156.0" prefWidth="607.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="10.0">
+                                       <children>
+                                          <Label layoutX="14.0" layoutY="45.0" prefHeight="27.0" prefWidth="80.0" text="Incoming" AnchorPane.bottomAnchor="86.0">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="258.0" layoutY="44.0" text="Outgoing" AnchorPane.bottomAnchor="87.0">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbl_outbw" layoutX="339.0" layoutY="109.0" prefHeight="25.0" prefWidth="124.0" textFill="#ffbd60" AnchorPane.bottomAnchor="22.0">
+                                             <font>
+                                                <Font name="System Bold" size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbl_inbw" layoutX="94.0" layoutY="108.0" prefHeight="25.0" prefWidth="129.0" textFill="#f80000ba" AnchorPane.bottomAnchor="23.0">
+                                             <font>
+                                                <Font name="System Bold" size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbl_current_device" layoutX="23.0" layoutY="18.0" prefHeight="25.0" prefWidth="421.0" textFill="#0032ffd9">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="26.0" layoutY="76.0" text="Speed">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="10.0" layoutY="108.0" text="Bandwidth">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="270.0" layoutY="77.0" text="Speed">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="254.0" layoutY="109.0" text="Bandwidth">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbl_inspeed" layoutX="79.0" layoutY="76.0" prefHeight="25.0" prefWidth="154.0" textFill="#f70000ba">
+                                             <font>
+                                                <Font name="System Bold" size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbl_outspeed" layoutX="326.0" layoutY="77.0" prefHeight="25.0" prefWidth="140.0" textFill="#fcbe69">
+                                             <font>
+                                                <Font name="System Bold" size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <ComboBox fx:id="combobox_speed" layoutX="453.0" layoutY="44.0" prefHeight="25.0" prefWidth="80.0" AnchorPane.bottomAnchor="87.0" />
+                                          <Label fx:id="lbl_grpah_units" layoutX="453.0" layoutY="21.0" text="Graph Units" AnchorPane.bottomAnchor="115.0">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </content>
+                </Tab>
+                <Tab fx:id="tab_reports" text="   Reports   ">
+                     <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <AnchorPane layoutX="1080.0" layoutY="14.0" prefHeight="200.0" prefWidth="187.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="14.0">
+                                 <children>
+                                    <Label layoutX="10.0" layoutY="6.0" text="Generate Report">
+                                       <font>
+                                          <Font name="System Bold" size="22.0" />
+                                       </font>
+                                    </Label>
+                                    <Separator layoutY="44.0" prefHeight="0.0" prefWidth="139.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                    <AnchorPane layoutX="6.0" layoutY="59.0" prefHeight="139.0" prefWidth="179.0">
+                                       <children>
+                                          <Label layoutX="14.0" layoutY="5.0" text="IP">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="btn_refresh_ips" layoutX="74.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0" text="Refresh" />
+                                          <ComboBox fx:id="combobox_ips" layoutX="8.0" layoutY="35.0" prefHeight="25.0" prefWidth="168.0" />
+                                          <Label layoutX="6.0" layoutY="70.0" text="Interfaces">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="btn_refresh_interfaces" layoutX="76.0" layoutY="68.0" mnemonicParsing="false" text="Refresh" />
+                                          <ComboBox fx:id="combobox_ports" layoutX="4.0" layoutY="100.0" prefHeight="25.0" prefWidth="171.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="6.0" layoutY="205.0" prefHeight="241.0" prefWidth="175.0">
+                                       <children>
+                                          <Label text="Start" />
+                                          <DatePicker fx:id="start_date" layoutY="17.0" />
+                                          <Label layoutX="8.0" layoutY="53.0" text="Hours" />
+                                          <TextField fx:id="start_time_hrs" layoutX="42.0" layoutY="49.0" prefHeight="25.0" prefWidth="28.0" promptText="00" />
+                                          <Label layoutX="76.0" layoutY="53.0" text="Minutes " />
+                                          <TextField fx:id="start_time_mins" layoutX="124.0" layoutY="49.0" prefHeight="25.0" prefWidth="30.0" promptText="00" />
+                                          <Separator layoutY="86.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                          <Label layoutX="6.0" layoutY="87.0" text="Generate Last">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="btn_generate_last_day" layoutX="8.0" layoutY="113.0" mnemonicParsing="false" text="Day" />
+                                          <Button fx:id="btn_generate_last_week" layoutX="59.0" layoutY="113.0" mnemonicParsing="false" text="Week" />
+                                          <Button fx:id="btn_generate_last_month" layoutX="117.0" layoutY="113.0" mnemonicParsing="false" text="Month" />
+                                          <Separator layoutY="140.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                          <Label layoutX="4.0" layoutY="155.0" text="End" />
+                                          <DatePicker fx:id="end_date" layoutX="1.0" layoutY="172.0" prefHeight="25.0" prefWidth="174.0" />
+                                          <Label layoutX="6.0" layoutY="206.0" text="Hours" />
+                                          <TextField fx:id="end_time_hrs" layoutX="40.0" layoutY="202.0" prefHeight="25.0" prefWidth="30.0" promptText="00" />
+                                          <Label layoutX="76.0" layoutY="206.0" text="Minutes" />
+                                          <TextField fx:id="end_time_mins" layoutX="123.0" layoutY="202.0" prefHeight="25.0" prefWidth="31.0" promptText="00" />
+                                       </children>
+                                    </AnchorPane>
+                                    <Button fx:id="btn_get_records" layoutY="455.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Calculate">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="btn_generate_pdf" layoutX="86.0" layoutY="455.0" mnemonicParsing="false" text="Generate PDF">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></Button>
+                                 </children>
+                              </AnchorPane>
+                              <TableView fx:id="record_table" layoutX="14.0" layoutY="14.0" prefHeight="516.0" prefWidth="1059.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="206.0" AnchorPane.topAnchor="15.0">
+                                <columns>
+                                    <TableColumn fx:id="col_ip" prefWidth="115.0" text="IP">
+                                        </TableColumn>
+                                    <TableColumn fx:id="col_dscr" prefWidth="117.0" text="Interface Description">
+                                        </TableColumn>
+                                    <TableColumn fx:id="col_inbw" prefWidth="122.0" text="Avg. InBW ( % )">
+                                        </TableColumn>
+                                    <TableColumn fx:id="col_outbw" prefWidth="120.0" text="Avg. OutBW ( % )">
+                                        </TableColumn>
+                                    <TableColumn fx:id="col_data_in" prefWidth="125.0" text="Data In (MB)">
+                                        </TableColumn>
+                                    <TableColumn fx:id="col_data_out" prefWidth="100.0" text="Data Out (MB)">
+                                        </TableColumn>
+                                    <TableColumn fx:id="col_max_speed" prefWidth="75.0" text="Maximum Speed" />
+                                    <TableColumn fx:id="col_datarate_in" prefWidth="130.0" text="Avg, Data Rate IN (Mbps)">
+                                        </TableColumn>
+                                    <TableColumn fx:id="col_datarate_out" prefWidth="82.0" text="Avg. Data Rate Out (Mbps)">
+                                        
+                                    </TableColumn>
+                                    <TableColumn fx:id="col_totalbw" prefWidth="154.0" text="Total Bandwidth ( % )" />
+                                    <TableColumn fx:id="col_totaldata" prefWidth="75.0" text="Total Data Transferred" />
+                                    <TableColumn fx:id="col_totalrate" prefWidth="75.0" text="Total Average Speed" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </content></Tab>
+                  <Tab fx:id="tab_devices" text="   Manage Devices   ">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <AnchorPane layoutX="1014.0" layoutY="6.0" prefHeight="532.0" prefWidth="252.0" AnchorPane.rightAnchor="14.0">
+                                 <children>
+                                    <Label layoutX="29.0" text="Manage Interfaces">
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <Separator layoutY="44.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                    <Label layoutX="10.0" layoutY="45.0" text="Add Interface">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Separator layoutX="29.0" layoutY="71.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                    <Label layoutX="11.0" layoutY="81.0" text="IP Adress">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txt_device_ip" layoutX="100.0" layoutY="82.0" />
+                                    <Label layoutX="3.0" layoutY="114.0" text="Community">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txt_device_community" layoutX="102.0" layoutY="115.0" promptText="public" />
+                                    <Label layoutX="31.0" layoutY="151.0" text="Port">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Button fx:id="btn_interface_list" layoutX="105.0" layoutY="152.0" mnemonicParsing="false" text="Generate Interface List" />
+                                    <ComboBox fx:id="combobox_interfaces" layoutX="5.0" layoutY="187.0" prefHeight="25.0" prefWidth="244.0" />
+                                    <Label layoutX="2.0" layoutY="223.0" prefHeight="53.0" prefWidth="95.0" text="User &#10;Description&#10;">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txt_device_usr_dscr" layoutX="102.0" layoutY="224.0" prefHeight="12.0" prefWidth="149.0" promptText="Additional Information" />
+                                    <Button fx:id="btn_device_add" layoutX="159.0" layoutY="276.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="Add">
+                                       <font>
+                                          <Font name="System Bold" size="16.0" />
+                                       </font>
+                                    </Button>
+                                    <Separator layoutX="-1.0" layoutY="336.0" prefWidth="200.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" />
+                                    <Label layoutX="4.0" layoutY="339.0" text="Edit user Description">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Button fx:id="btn_edit_dscr" layoutX="68.0" layoutY="373.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="132.0" text="Edit Description">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Button>
+                                    <Separator layoutX="-1.0" layoutY="364.0" prefWidth="200.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" />
+                                    <Separator layoutX="1.0" layoutY="422.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                    <Label layoutX="6.0" layoutY="425.0" text="Remove Interface">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Separator layoutX="1.0" layoutY="451.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                    <Button fx:id="btn_remove_devices" layoutX="19.0" layoutY="463.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="214.0" text="Remove Selected Device">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="btn_start_recording" layoutX="58.0" layoutY="493.0" mnemonicParsing="false" text="Button" />
+                                 </children>
+                              </AnchorPane>
+                              <Label layoutX="14.0" layoutY="14.0" text="Interfaces being currently monitored">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                              <TableView fx:id="table_devices" layoutX="14.0" layoutY="49.0" prefHeight="487.0" prefWidth="986.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="49.0">
+                                <columns>
+                                  <TableColumn fx:id="col_device_ip" minWidth="50.0" prefWidth="90.0" text="IP" />
+                                  <TableColumn fx:id="col_device_port" minWidth="50.0" prefWidth="99.0" text="IfIndex" />
+                                    <TableColumn fx:id="col_device_community" minWidth="50.0" prefWidth="85.0" text="Community" />
+                                    <TableColumn fx:id="col_device_status" minWidth="50.0" prefWidth="63.0" text="Status" />
+                                    <TableColumn fx:id="col_device_speed" prefWidth="103.0" text="Speed (Mbps)" />
+                                    <TableColumn fx:id="col_usr_dscr" prefWidth="229.0" text="User Description" />
+                                    <TableColumn fx:id="col_device_description" minWidth="90.0" prefWidth="239.0" text="SNMP Description" />
+                                </columns>
+                              </TableView>
+                              </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab text="SNMP Commands">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="58.0" layoutY="41.0" text="SNMP GET">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="109.0" layoutY="114.0" text="IP">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="101.0" layoutY="177.0" text="OID">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="70.0" layoutY="235.0" text="Community">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextArea fx:id="txt_snmpget_output" layoutX="177.0" layoutY="377.0" prefHeight="200.0" prefWidth="399.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextArea>
+                              <Button fx:id="btn_snmpget" layoutX="269.0" layoutY="285.0" mnemonicParsing="false" text="GET">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                              <TextField fx:id="txt_snmpget_ip" layoutX="184.0" layoutY="108.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="txt_snmpget_oid" layoutX="184.0" layoutY="171.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="txt_snmpget_community" layoutX="184.0" layoutY="229.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
+                              <Label layoutX="109.0" layoutY="377.0" text="OUPUT">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab fx:id="tab_about" text="   About   ">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fitHeight="757.0" fitWidth="1655.0" opacity="0.3" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/bg_image_about.jpg" />
+                                 </image>
+                              </ImageView>
+                              <AnchorPane layoutX="34.0" layoutY="171.0" prefHeight="455.0" prefWidth="618.0">
+                                 <children>
+                                    <Label layoutX="159.0" layoutY="12.0" text="Email :">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="17.0" layoutY="10.0" text="Ashish Padalkar">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="219.0" layoutY="12.0" text="ashish2199@gmai.com">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="159.0" layoutY="37.0" text="Github :">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="228.0" layoutY="37.0" text="github.com/ashish2199">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <Label layoutX="34.0" layoutY="136.0" text="Created by -">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="34.0" layoutY="14.0" prefHeight="111.0" prefWidth="1232.0" text="MANAS is a is an intra-network based system software to monitor the bandwidth and generate periodic reports of bandwidth usage." wrapText="true">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+              </tabs>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </TabPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
