@@ -10,79 +10,77 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.snmp4j.PDU;
 import snmp.commands.SnmpGet;
+import static snmp.commands.SnmpGet.NULL_DATA_RECIEVED;
 
     
 class record{
-int index;
-long inoctets;
-long outoctets;
-long speed;
-Date date;
-String ip;
-double in_bw;
-double out_bw;
-String port;
-double data_in_mb;
-double data_out_mb;
-double data_datarate_in_mbps;
-double data_datarate_out_mbps;
-
-public String community = "public";
-static String oid_IFindexes="1.3.6.1.2.1.2.2.1.1";
-static String oid_speed = "1.3.6.1.2.1.2.2.1.5.";
-static String oid_status= "1.3.6.1.2.1.2.2.1.8.";
-static String oid_interface_dscr="1.3.6.1.2.1.2.2.1.2.";
-
-static String oid_basic_inoctetes = "1.3.6.1.2.1.2.2.1.10.";
-static String oid_basic_outoctetes = "1.3.6.1.2.1.2.2.1.16.";
-
-static String oid_inoctetes;
-static String oid_outoctetes;
-
-
-static String oid_HCInoctetes = " 1.3.6.1.2.1.31.1.1.1.6.";
-static String oid_HCOutoctetes = " 1.3.6.1.2.1.31.1.1.1.10.";
-
-record(String ip,String port,String community) throws IOException{
     
-    this.port = port;
-    this.ip=ip;
+    int index;
+    long inoctets;
+    long outoctets;
+    long speed;
+    Date date;
+    String ip;
+    double in_bw;
+    double out_bw;
+    String port;
+    double data_in_mb;
+    double data_out_mb;
+    double data_datarate_in_mbps;
+    double data_datarate_out_mbps;
     
-    date = new Date();
-                              
-    String InOctets_oidval = oid_inoctetes+port;
-    PDU In_resp_from_get = SnmpGet.snmpGet(ip, community, InOctets_oidval);
-    inoctets = SnmpGet.getPDUvalue(In_resp_from_get);
+    /* we have not declared them with their value as they can be either 
+        normal octets or HC Octets based on what is supported
+    */
+    static String oid_inoctetes;
+    static String oid_outoctetes;
+    public String community = "public";
+    static String oid_IFindexes="1.3.6.1.2.1.2.2.1.1";
+    static String oid_speed = "1.3.6.1.2.1.2.2.1.5.";
+    static String oid_status= "1.3.6.1.2.1.2.2.1.8.";
+    static String oid_interface_dscr="1.3.6.1.2.1.2.2.1.2.";
+    static String oid_basic_inoctetes = "1.3.6.1.2.1.2.2.1.10.";
+    static String oid_basic_outoctetes = "1.3.6.1.2.1.2.2.1.16.";
+    static String oid_HCInoctetes = " 1.3.6.1.2.1.31.1.1.1.6.";
+    static String oid_HCOutoctetes = " 1.3.6.1.2.1.31.1.1.1.10.";
     
-    String OutOctets_oidval = oid_outoctetes+port;
-    PDU Out_resp_from_get = SnmpGet.snmpGet(ip, community, OutOctets_oidval);
-    outoctets = SnmpGet.getPDUvalue(Out_resp_from_get);
-                            
-    String IfSpeed_oidval = oid_speed+port;
-    PDU speed_resp_from_get = SnmpGet.snmpGet(ip, community, IfSpeed_oidval);
-    speed = SnmpGet.getPDUvalue(speed_resp_from_get);
-    
-    
-    
-}
-record(record r){
-    this.ip=r.ip;
-    this.data_datarate_in_mbps=r.data_datarate_in_mbps;
-    this.data_datarate_out_mbps=r.data_datarate_out_mbps;
-    this.data_in_mb=r.data_in_mb;
-    this.data_out_mb=r.data_out_mb;
-    this.date=r.date;
-    this.in_bw=r.in_bw;
-    this.index=r.index;
-    this.inoctets=r.inoctets;
-    this.out_bw=r.out_bw;
-    this.outoctets=r.outoctets;
-    this.port=r.port;
-    this.speed=r.speed;
-}
+    //This is the constructor used when creating a record
+    record(String ip,String port,String community) throws IOException{
+        this.port = port;
+        this.ip=ip;
 
-    
+        date = new Date();
 
+        String InOctets_oidval = oid_inoctetes+port;
+        PDU In_resp_from_get = SnmpGet.snmpGet(ip, community, InOctets_oidval);
+        inoctets = SnmpGet.getPDUvalue(In_resp_from_get);
+
+        String OutOctets_oidval = oid_outoctetes+port;
+        PDU Out_resp_from_get = SnmpGet.snmpGet(ip, community, OutOctets_oidval);
+        outoctets = SnmpGet.getPDUvalue(Out_resp_from_get);
+
+        String IfSpeed_oidval = oid_speed+port;
+        PDU speed_resp_from_get = SnmpGet.snmpGet(ip, community, IfSpeed_oidval);
+        speed = SnmpGet.getPDUvalue(speed_resp_from_get);
+
+    }
+
+    //This is the copy constructor used in copying the arraylist of records for the graph. 
+    record(record r){
+        this.ip=r.ip;
+        this.data_datarate_in_mbps=r.data_datarate_in_mbps;
+        this.data_datarate_out_mbps=r.data_datarate_out_mbps;
+        this.data_in_mb=r.data_in_mb;
+        this.data_out_mb=r.data_out_mb;
+        this.date=r.date;
+        this.in_bw=r.in_bw;
+        this.index=r.index;
+        this.inoctets=r.inoctets;
+        this.out_bw=r.out_bw;
+        this.outoctets=r.outoctets;
+        this.port=r.port;
+        this.speed=r.speed;
+    }
 }
 
 
@@ -115,7 +113,7 @@ public class Datacollector {
         
         System.out.println("setting oid to inoctets= "+record.oid_inoctetes+" and outoctets to"+record.oid_outoctetes);
         
-        if(inoctets==-10&&outoctets==-10){
+        if( inoctets==NULL_DATA_RECIEVED && outoctets==NULL_DATA_RECIEVED ){
         
             System.out.println("Changing octets oid");
             
@@ -175,25 +173,25 @@ public class Datacollector {
     
     //slots are used as we car add and remove various devices so 
     //we need a mechanism to add so that we can allocate slot for device to be added
-    static ArrayList<Integer> freeslots=new ArrayList();
-    static ArrayList<Integer> usedslots=new ArrayList();
+    static ArrayList<Integer> free_slots_list=new ArrayList();
+    static ArrayList<Integer> used_slots_list=new ArrayList();
     
-    static ArrayList<Integer> portslist=new ArrayList();
-    static ArrayList<String> iplist=new ArrayList();
+    static ArrayList<Integer> ports_list=new ArrayList();
+    static ArrayList<String> ip_list=new ArrayList();
     static int index=0;
     
     public static void add(String ip,int port,String community){
-        if(!iplist.contains(ip)||!portslist.contains(port)){
-                if(freeslots.size()!=0){
-                    index=freeslots.get(0);
+        if(!ip_list.contains(ip)||!ports_list.contains(port)){
+                if(free_slots_list.size()!=0){
+                    index=free_slots_list.get(0);
                 }
                 else{
                     System.out.println("error No free slots;");
                 }
-                freeslots.remove((Integer)index);
-                usedslots.add((Integer)index);
-                portslist.add(port);
-                iplist.add(ip);
+                free_slots_list.remove((Integer)index);
+                used_slots_list.add((Integer)index);
+                ports_list.add(port);
+                ip_list.add(ip);
                 mapping_table[index][0]=ip;
                 mapping_table[index][1]=""+port;
                 mapping_table[index][2]=community;
@@ -201,14 +199,14 @@ public class Datacollector {
     }
     
     public static void remove(String ip,int port){
-            if(iplist.contains(ip)&&portslist.contains(port)){
-                for(int i:usedslots){
+            if(ip_list.contains(ip)&&ports_list.contains(port)){
+                for(int i:used_slots_list){
                     if(mapping_table[i][0].equals(ip)&&mapping_table[i][1].equals(""+port)){
                         mapping_table[i]=null;
-                        usedslots.remove((Integer)i);
-                        freeslots.add((Integer)i);
-                        portslist.remove((Integer)port);
-                        iplist.remove(ip);
+                        used_slots_list.remove((Integer)i);
+                        free_slots_list.add((Integer)i);
+                        ports_list.remove((Integer)port);
+                        ip_list.remove(ip);
                         break;
                     }
                 }
@@ -217,7 +215,7 @@ public class Datacollector {
     
 
     
-    //sent to gui
+    //send to gui
     public static ArrayList get_current_recordings(){
         System.out.println("sending arraylist of size"+data_collected_copy_for_gui.size());
         return data_collected_copy_for_gui;
@@ -253,14 +251,7 @@ public class Datacollector {
             }
                 
         }
-        
-        
-        //concurrent modification exception
-        /*for(record r:data_collected_copy_for_gui){
-        if(r.date.before(last_shown)){
-        data_collected_copy_for_gui.remove(r);
-        }
-        }*/
+
     }
     
     //not used now 
@@ -304,7 +295,7 @@ public class Datacollector {
 
 
         //System.out.println("start="+start+" end="+end+" loopsize="+loop);
-        for(Integer p:usedslots){
+        for(Integer p:used_slots_list){
             
             
            // System.out.println("for Port = "+p);
@@ -378,36 +369,33 @@ public class Datacollector {
     
     public static void initialise_mapping(){
         mapping_table=new String[no_of_slots][3];
-        usedslots.clear();
-        freeslots.clear();
+        used_slots_list.clear();
+        free_slots_list.clear();
         for(int j=0;j<no_of_slots;j++){
-            freeslots.add(j);
+            free_slots_list.add(j);
         }
     }
     //called in data model for records
     public static String get_snmp_description(String ip,int port,String community) throws IOException{
-        String oid = record.oid_interface_dscr+port;
-        PDU In_resp_from_get = SnmpGet.snmpGet(ip,community, oid);
-        String hexresponse=SnmpGet.getPDUStringvalue(In_resp_from_get);
-        //can also be in hexadecimal 
-        Pattern pattern =Pattern.compile("[0-9a-fA-f][0-9a-fA-f]:[0-9a-fA-f][0-9a-fA-f]");
-                                        Matcher matcher = pattern.matcher(hexresponse);
-                                        
-                                       String description=hexresponse;
-                                       
-                                       if(matcher.find()){
-                                       description="";    
-                                       String newhexstring = hexresponse.replaceAll(":"," ");
-                                            String str[]=newhexstring.split(" ");
+            String oid = record.oid_interface_dscr+port;
+            PDU In_resp_from_get = SnmpGet.snmpGet(ip,community, oid);
+            String hexresponse=SnmpGet.getPDUStringvalue(In_resp_from_get);
+            //can also be in hexadecimal 
+            Pattern pattern =Pattern.compile("[0-9a-fA-f][0-9a-fA-f]:[0-9a-fA-f][0-9a-fA-f]");
+            Matcher matcher = pattern.matcher(hexresponse);
 
-                                            for(String s:str){
-                                                    int num = hex2decimal(s);
-                                                    description += (char)num;
-                                                }
-                                        }
-        
+            String description=hexresponse;
+
+            if(matcher.find()){
+                description="";    
+                String newhexstring = hexresponse.replaceAll(":"," ");
+                String str[]=newhexstring.split(" ");
+                for(String s:str){
+                    int num = hex2decimal(s);
+                    description += (char)num;
+                }
+            }
         return description;
-        
     }
     
     public static int hex2decimal(String s) {
@@ -419,19 +407,19 @@ public class Datacollector {
                  int d = digits.indexOf(c);
                  val = 16*val + d;
              }
-             return val;
-         }
+         return val;
+    }
+    
     public static String get_snmp_status(String ip,int port,String community) throws IOException{
-        String status="";
-        String oid = record.oid_status+port;
-        PDU In_resp_from_get = SnmpGet.snmpGet(ip,community, oid);
-        long status_code=SnmpGet.getPDUvalue(In_resp_from_get);
-        if(status_code==1){status="up";}
-        if(status_code==2){status="down";}
-        if(status_code==3){status="testing";}
-        if(status_code==5){status="dormant";}
-        if(status_code==6){status="notpresent";}
-        
+            String status="";
+            String oid = record.oid_status+port;
+            PDU In_resp_from_get = SnmpGet.snmpGet(ip,community, oid);
+            long status_code=SnmpGet.getPDUvalue(In_resp_from_get);
+            if(status_code==1){status="up";}
+            if(status_code==2){status="down";}
+            if(status_code==3){status="testing";}
+            if(status_code==5){status="dormant";}
+            if(status_code==6){status="notpresent";}
         return status;
     }
     
@@ -481,6 +469,7 @@ public class Datacollector {
         
         static int time_sec=0;
         
+        //incast it goes beyong range of int
         static int timewrap=2147483647-(2147483647%(update_freq*3));
         
         static boolean initialise=true;
@@ -489,151 +478,145 @@ public class Datacollector {
     
         public static void initialise_data_collection(){
             try{
-                                if(initialise){
-                                    startindex=0;
-                                    endindex=-1;
-                                    initialise_mapping();
-                                    tmp_recordings = new record[no_of_slots][size_record_queue];
-                                    System.out.println("Table created");
-                                    initialise=false;
-                                }
-                            }
-                            catch (Exception ex) {
-                                            gui_javafx.pst.println("Error in Initialising Datacollector.repeatfunction()");
-                                            ex.printStackTrace(gui_javafx.pst);
-                            }
+                if(initialise){
+                        startindex=0;
+                        endindex=-1;
+                        initialise_mapping();
+                        tmp_recordings = new record[no_of_slots][size_record_queue];
+                        System.out.println("Table created");
+                        initialise=false;
+                    }
+            }
+            catch (Exception ex) {
+                            gui_javafx.pst.println("Error in Initialising Datacollector.repeatfunction()");
+                            ex.printStackTrace(gui_javafx.pst);
+            }
         }
+        
         public static class repeatfunctions implements Runnable{
     
                     
-                    long startInoctets =0;
-                    long prevInoctets =0;
-                    long prevOutoctets =0;
-                    public void run() {
-                        
-                        
-                    try {
-                            System.out.println("Inside repeat function");
-                            
-                            if(initialise_in_octets_type){
-                                if(!usedslots.isEmpty())
-                                {   
-                                    Iterator<Integer> iter = usedslots.iterator();
-                                    while (iter.hasNext()) {
-                                        
-                                        Integer i = iter.next();
-                                        check_if_HC_octets_present(mapping_table[i][0],mapping_table[i][1],mapping_table[i][2]);
-                                        break;
-                                    }
-                                    
-                                    initialise_in_octets_type=false;
-                                
-                                }
-                            }
-                            
-                            
-                            if(!pause){
-                                
-                                try{
-                                    
-                                    Iterator<Integer> iter = usedslots.iterator();
-                                    while (iter.hasNext()) {
-                                        Integer i = iter.next();
-                                        tmp_recordings[i][tmp_index%size_record_queue]=new record(mapping_table[i][0],mapping_table[i][1],mapping_table[i][2]);
-                                    }
-                                    //giving concurrent modification exception
-                                    /*
-                                        for(Integer i:usedslots){                                       //ip,port,coomunity
-                                        tmp_recordings[i][tmp_index%size_record_queue]=new record(mapping_table[i][0],mapping_table[i][1],mapping_table[i][2]);
-                                        }
-                                    */
-                                }
-                                catch (Exception ex) {
-                                    gui_javafx.pst.println("Error in creating temporary records array Datacollector.repeatfunction() at time:"+time_sec);
-                                    ex.printStackTrace(gui_javafx.pst);
-                                }
-                                
-                                    try{
-                                        System.out.println("time:"+time_sec);
-                                        tmp_index++;
-                                        endindex++;
-                                        endindex=endindex%size_record_queue;
-                                    }
-                                    catch (Exception ex) {
-                                        gui_javafx.pst.println("Error in modifying indexes for circular array Datacollector.repeatfunction()");
-                                        ex.printStackTrace(gui_javafx.pst);
-                                    }
-                                
-                                try{
-                                    if(time_sec%(update_freq*calc_freq)==0&&time_sec!=0){
-                                            calc_bandwidth(tmp_recordings, startindex, endindex);
-                                            startindex=endindex;
-                                            copyArrayList();
-                                    }
-                                }
-                                catch (Exception ex) {
-                                    gui_javafx.pst.println("Error in calc_bandwidth  Datacollector.repeatfunction()");
-                                    ex.printStackTrace(gui_javafx.pst);
+            long startInoctets =0;
+            long prevInoctets =0;
+            long prevOutoctets =0;
+ 
+        public void run() {
+        try {
+                System.out.println("Inside repeat function");
+                if(initialise_in_octets_type){
+                    if(!used_slots_list.isEmpty())
+                    {   
+                        Iterator<Integer> iter = used_slots_list.iterator();
+                        while (iter.hasNext()) {
 
-                                }
-                            }
-                            
-                            if(time_sec%(update_freq*calc_freq*data_store_freq)==0&&time_sec!=0){
-                               try{
-                                    data_processor.show_raw_data(data_collected);
-                                    
-                                    try{
-                                        data_processor.prepare_data(data_collected);
-                                    }
-                                    catch (Exception ex) {
-                                        gui_javafx.pst.println("Error in preparing data for database Datacollector.repeatfunction()");
-                                        ex.printStackTrace(gui_javafx.pst);
-                                    }
-                                    
-                                    String data[][] = null;
-                                    try{
-                                        data=data_processor.get_database_data();
-                                    }
-                                    catch (Exception ex) {
-                                        gui_javafx.pst.println("Error in preparing data for database Datacollector.repeatfunction()");
-                                        ex.printStackTrace(gui_javafx.pst);
-                                    }
-                                    data_processor.show_processed_data();
-                                    
-                                    try{
-                                        if(data==null){
-                                            System.out.println("NO DATA ( NULL )TO BE INSERTED IN DATABASE");
-                                        }
-                                        else{
-                                            database.insert_data(data);
-                                        }
-                                    }
-                                    catch (Exception ex) {
-                                        gui_javafx.pst.println("Error in inserting data to database Database.insert_data() in Datacollector.repeatfunction()");
-                                        ex.printStackTrace(gui_javafx.pst);
-                                    }
-                                    data_collected.clear();
-                               }
-                               catch (Exception ex) {
-                                gui_javafx.pst.println("Error in sending data to database Datacollector.repeatfunction()");
-                                ex.printStackTrace(gui_javafx.pst);
-                               }
-                               
-                            }
-                        
-                            time_sec+=update_freq;  
-                            if(time_sec>(timewrap)){
-                               time_sec=2147483647%update_freq;
-                            }
-                            
-                        } 
-                        catch (Exception ex) {
-                            gui_javafx.pst.println("Error in Data collecting and processing Datacollector.repeatfunction()");
-                            ex.printStackTrace(gui_javafx.pst);
-
+                            Integer i = iter.next();
+                            check_if_HC_octets_present(mapping_table[i][0],mapping_table[i][1],mapping_table[i][2]);
+                            break;
                         }
-                        
+
+                        initialise_in_octets_type=false;
+
                     }
                 }
+
+                if(!pause){
+                    try{
+                        Iterator<Integer> iter = used_slots_list.iterator();
+                        while (iter.hasNext()) {
+                            Integer i = iter.next();
+                            tmp_recordings[i][tmp_index%size_record_queue]=new record(mapping_table[i][0],mapping_table[i][1],mapping_table[i][2]);
+                        }
+                    }
+                    catch (Exception ex) {
+                        gui_javafx.pst.println("Error in creating temporary records array Datacollector.repeatfunction() at time:"+time_sec);
+                        ex.printStackTrace(gui_javafx.pst);
+                    }
+
+                    try{
+                        System.out.println("time:"+time_sec);
+                        tmp_index++;
+                        endindex++;
+                        endindex=endindex%size_record_queue;
+                    }
+                    catch (Exception ex) {
+                        gui_javafx.pst.println("Error in modifying indexes for circular array Datacollector.repeatfunction()");
+                        ex.printStackTrace(gui_javafx.pst);
+                    }
+
+                    try{
+                        if(time_sec%(update_freq*calc_freq)==0&&time_sec!=0){
+                                calc_bandwidth(tmp_recordings, startindex, endindex);
+                                startindex=endindex;
+                                copyArrayList();
+                        }
+                    }
+                    catch (Exception ex) {
+                        gui_javafx.pst.println("Error in calc_bandwidth  Datacollector.repeatfunction()");
+                        ex.printStackTrace(gui_javafx.pst);
+
+                    }
+                }
+                    //so that we collect data only according to frequency specified    
+                if( time_sec%(update_freq*calc_freq*data_store_freq)==0&&time_sec!=0 ){
+                    
+                    try{
+                        
+                        data_processor.show_raw_data(data_collected);
+
+                        try{
+                            data_processor.prepare_data(data_collected);
+                        }
+                        catch (Exception ex) {
+                            gui_javafx.pst.println("Error in preparing data for database Datacollector.repeatfunction()");
+                            ex.printStackTrace(gui_javafx.pst);
+                        }
+
+                        String data[][] = null;
+                        try{
+                            data=data_processor.get_database_data();
+                        }
+                        catch (Exception ex) {
+                            gui_javafx.pst.println("Error in preparing data for database Datacollector.repeatfunction()");
+                            ex.printStackTrace(gui_javafx.pst);
+                        }
+                        data_processor.show_processed_data();
+
+                        try{
+                            if(data==null){
+                                System.out.println("NO DATA ( NULL )TO BE INSERTED IN DATABASE");
+                            }
+                            else{
+                                database.insert_data(data);
+                            }
+                        }
+                        catch (Exception ex) {
+                            gui_javafx.pst.println("Error in inserting data to database Database.insert_data() in Datacollector.repeatfunction()");
+                            ex.printStackTrace(gui_javafx.pst);
+                        }
+                    
+                        //clear the temporary list
+                        data_collected.clear();
+                    
+                    }
+                    catch (Exception ex) {
+                        gui_javafx.pst.println("Error in sending data to database Datacollector.repeatfunction()");
+                        ex.printStackTrace(gui_javafx.pst);
+                    }
+
+                }
+                
+                //update time
+                time_sec+=update_freq;  
+                if(time_sec>(timewrap)){
+                   time_sec=2147483647%update_freq;
+                }
+
+            } 
+            catch (Exception ex) {
+                gui_javafx.pst.println("Error in Data collecting and processing Datacollector.repeatfunction()");
+                ex.printStackTrace(gui_javafx.pst);
+            }
+        }
+    }
 
 }

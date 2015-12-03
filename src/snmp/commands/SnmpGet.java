@@ -58,21 +58,16 @@ public class SnmpGet {
                                 Gui_fxmlController.create_dialog("SNMP Agent sent a null response");
 				System.out.println("response is null, request time out");
 			}
-                        else 
-                        {
-
-				
-
-			}
-			//System.out.println("SNMP GET one OID value finished !");
-		} catch (Exception e) {
+                        
+		} 
+                catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("SNMP Get Exception:" + e);
-		} finally {
+		} 
+                finally {
 			if (snmp != null) {
                             snmp.close();
 			}
-
 		}
             return response;
 	}
@@ -80,30 +75,29 @@ public class SnmpGet {
         public static long getPDUvalue(PDU response){
            long IfInOctets  = -1;
             //System.out.println("response pdu size is " + response.size());
-				for (int i = 0; i < response.size(); i++) {
-					VariableBinding vb = response.get(i);
-					String value = vb.getVariable().toString();
-                                        if(!value.equals("Null")){
-                                        IfInOctets  = Long.parseLong(value);
-                                        }else{
-                                        IfInOctets=-10;
-                                        }
-                                }
+            for (int i = 0; i < response.size(); i++) {
+                    VariableBinding vb = response.get(i);
+                    String value = vb.getVariable().toString();
+                    if(!value.equals("Null")){
+                    IfInOctets  = Long.parseLong(value);
+                    }else{
+                    IfInOctets=NULL_DATA_RECIEVED;
+                    }
+            }
             return IfInOctets;
         }
         
+    public static final int NULL_DATA_RECIEVED = -10;
+        
         public static String getPDUStringvalue(PDU response){
-           String response_str="";
-            //System.out.println("response pdu size is " + response.size());
-				for (int i = 0; i < response.size(); i++) {
-					VariableBinding vb = response.get(i);
-					//System.out.println(vb.getOid() + " = " + vb.getVariable());
-                                        response_str+=vb.getVariable().toString();
-                                        //System.out.println(vb.getVariable());
-				
-                                }
+                String response_str="";
+                //System.out.println("response pdu size is " + response.size());
+                for (int i = 0; i < response.size(); i++) {
+                        VariableBinding vb = response.get(i);
+                        //System.out.println(vb.getOid() + " = " + vb.getVariable());
+                        response_str+=vb.getVariable().toString();
+                        //System.out.println(vb.getVariable());
+                }
             return response_str;
         }
-	
-
 }
