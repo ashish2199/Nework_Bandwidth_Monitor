@@ -1,28 +1,36 @@
 # Nework_Bandwidth_Monitor
---
+
+
 SNMP based network bandwidth , data usage and Speed monitor for SNMP enabled devices
 
-##Requirements
+## Requirements
    SNMP Enabled devices/interfaces
    
    MySql Database
    
    PDF reader to view reports
 
+# How to use
+Clone the repo and open in netbeans
 
-#Screenshots
+# Dependencies
+   - SNMP4J
+   - iText
 
-##Start screen
+
+# Screenshots
+
+## Start screen
 ![Screenshot Start screen](http://i.imgur.com/JxKp1MJ.png)
 
-##Graph
+## Graph
 ![Screenshot Graph](http://i.imgur.com/DGlF8iu.png)
 
-##Report Generation
+## Report Generation
 ![Screenshot Report Generation](http://i.imgur.com/5fVjwXU.png)
 
-##Manage Devices Tab
+## Manage Devices Tab
 ![Screenshot Manage Devices](http://i.imgur.com/vp9XwuO.png)
 
-##PDF Report
+## PDF Report
 ![Screenshot PDF Report](http://i.imgur.com/bhORTnk.png)
